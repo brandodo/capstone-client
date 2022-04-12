@@ -1,8 +1,8 @@
 # WD Diploma - Capstone Project
 
-**Project Title:** osu!Lite / spOSU!fy
-**Author:** Brandon Ong
-**Cohort:** Web Development 2022 (Part-time)
+**Project Title:** osu!Lite / spOSU!fy  
+**Author:** Brandon Ong  
+**Cohort:** Web Development 2022 (Part-time)  
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
