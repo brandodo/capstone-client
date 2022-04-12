@@ -1,0 +1,19 @@
+body {
+  background-color: #000000;
+}
+
+main {
+  display: flex;
+}
+
+.gameScreen {
+  display: flex;
+  justify-content: center;
+  width: 80%;
+}
+
+.sidebar {
+  width: 20%;
+  height: 100vh;
+  background-color: #224c7d;
+}

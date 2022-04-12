@@ -1,0 +1,17 @@
+.gameSteps {
+  width: 60%;
+  position: fixed;
+  bottom: 20px;
+
+  &__step {
+    display: flex;
+    font-size: 20px;
+    color: #fff;
+  }
+}
+
+.MuiStepLabel-iconContainer {
+  background-color: #DDE0D6;
+  width: 50%;
+  border-radius: 50px;
+}

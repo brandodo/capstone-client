@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+# WD Diploma - Capstone Project
+# Project Title: osu!Lite / spOSU!fy
+# Author: Brandon Ong
+# Cohort: Web Development 2022 (Part-time)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Project Overview
 
-In the project directory, you can run:
+## 1.1 Description
 
-### `npm start`
+A circle clicking rhythm game where users can connect their Spotify account and play along while listening to their favorite playlists/songs.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 1.2 Problem
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Inspired by the popular game, Osu!, osu!Lite / spOSU!fy gives the casual music listener an easy to learn and personalized music listening and gaming experience. osu!, a free to play rhythm game, garnering over 19 million active users, will seem a bit daunting to the average person / non-gamer. osu! Lite / spOSU!fy aims to serve as a simplified version that any user can adopt while enjoying their favorite playlists/songs.
 
-### `npm test`
+## 1.3 User Profile
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The app will be geared towards casual music listeners and provide enjoyment as a secondary activity while listening to their favorite music.
 
-### `npm run build`
+## 1.4 Requirements: Use Cases and Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+As a user:
+- I can connect my Spotify account to search and play my favorite songs
+- I can compete against friends by setting new high scores
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 1.5 Tech Stack and APIs
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Front-End: React
+- Back-End: NodeJS and Express
+- Libraries & Packages
+    - React Router 5.3
+    - React Spring
+    - Material UI
+    - react-particles-js
+- Spotify API
+- PassportJS
 
-### `npm run eject`
+## 2. Client-Side Implementation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Site Map
+- Home / Login Screen
+- Song Search
+- Gameplay
+- Game complete screen
+- Screen Details
