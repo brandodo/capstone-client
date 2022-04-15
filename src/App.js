@@ -11,8 +11,8 @@ export default class App extends Component {
   state = {
     activeStep: 0,
     loggedIn: false,
-    isAuthenticating: true,
     profileData: null,
+    accessToken: "",
   };
 
   componentDidMount() {
@@ -21,16 +21,19 @@ export default class App extends Component {
       .then((res) => {
         console.log(res.data);
         this.setState({
-          isAuthenticating: false,
           loggedIn: true,
           profileData: res.data,
           activeStep: 1,
+          accessToken: res.data.access_token,
         });
+
+        setInterval(() => {
+          this.refreshToken();
+        }, (res.data.expires_in - 60) * 1000);
       })
       .catch((err) => {
         if (err.response.status === 401) {
           this.setState({
-            isAuthenticating: false,
             loggedIn: false,
           });
         } else {
@@ -39,8 +42,16 @@ export default class App extends Component {
       });
   }
 
+  refreshToken() {
+    axios
+      .get(`${SERVER_URL}/auth/refresh`, { withCredentials: true })
+      .then((res) => {
+        this.setState({ accessToken: res.data.access_token });
+      });
+  }
+
   render() {
-    const { loggedIn, isAuthenticating, profileData } = this.state;
+    const { loggedIn, profileData, accessToken } = this.state;
 
     return (
       <main>
@@ -49,7 +60,7 @@ export default class App extends Component {
         </div>
         <div className="sidebar">
           {loggedIn ? (
-            profileData && <SearchSongs profileData={profileData} />
+            profileData && <SearchSongs accessToken={accessToken} />
           ) : (
             <Login />
           )}

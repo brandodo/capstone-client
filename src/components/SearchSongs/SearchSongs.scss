@@ -1,8 +1,8 @@
 .sidebar {
   &__searchContainer {
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
   }
 
@@ -15,10 +15,12 @@
     height: 38px;
     padding: 10px;
     margin-top: 20px;
+    margin-bottom: 10px;
   }
 
   &__songsList {
-      overflow: auto;
-      max-height: 100vh;
+    overflow: auto;
+    max-height: 100%;
+    position: relative;
   }
 }
