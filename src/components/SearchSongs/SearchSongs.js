@@ -5,13 +5,8 @@ import "./SearchSongs.scss";
 
 const SPOTIFY_BASE_URL = "https://api.spotify.com/v1";
 
-export default function SearchSongs({ accessToken }) {
+export default function SearchSongs({ apiHeader, refreshCall, getTrackData }) {
   const [tracks, setTracks] = useState([]);
-  const apiHeader = {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-    Authorization: `Bearer ${accessToken}`,
-  };
 
   const searchSongs = (event) => {
     const searchTerm = event.target.value;
@@ -24,17 +19,9 @@ export default function SearchSongs({ accessToken }) {
         setTracks(res.data.tracks.items);
       })
       .catch((err) => {
-        console.log("Could not retrieve tracks", err);
-      });
-  };
-
-  const getAudioAnalysis = (songId) => {
-    axios
-      .get(`${SPOTIFY_BASE_URL}/audio-analysis/${songId}`, {
-        headers: apiHeader,
-      })
-      .then((res) => {
-        console.log(res);
+        if (err.response.status === 401) {
+          refreshCall();
+        }
       });
   };
 
@@ -52,7 +39,7 @@ export default function SearchSongs({ accessToken }) {
             <TrackDetails
               track={track}
               key={track.uri}
-              clickHandler={getAudioAnalysis}
+              getTrackData={getTrackData}
             />
           );
         })}

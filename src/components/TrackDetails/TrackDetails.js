@@ -1,7 +1,7 @@
 import React from "react";
 import "./TrackDetails.scss";
 
-export default function TrackDetails({ track, clickHandler }) {
+export default function TrackDetails({ track, getTrackData }) {
   const smallestAlbumImage = track.album.images.reduce((smallest, image) => {
     if (image.height < smallest.height) return image;
     return smallest;
@@ -19,7 +19,7 @@ export default function TrackDetails({ track, clickHandler }) {
           console.log(clickedOn);
         }
 
-        clickHandler(clickedOn.id);
+        getTrackData(clickedOn.id, track.uri);
       }}
     >
       <img

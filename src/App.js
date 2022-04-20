@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import HorizontalStepper from "./components/HorizontalStepper/HorizontalStepper";
 import Login from "./components/Login/Login";
 import SearchSongs from "./components/SearchSongs/SearchSongs";
+import TrackPlayer from "./components/TrackPlayer/TrackPlayer";
 import "./App.scss";
 import axios from "axios";
+import Gameplay from "./components/Gameplay/Gameplay";
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const SPOTIFY_BASE_URL = "https://api.spotify.com/v1";
 
 export default class App extends Component {
   state = {
@@ -13,6 +16,9 @@ export default class App extends Component {
     loggedIn: false,
     profileData: null,
     accessToken: "",
+    songSelected: false,
+    trackUri: "",
+    trackData: [],
   };
 
   componentDidMount() {
@@ -27,15 +33,14 @@ export default class App extends Component {
           accessToken: res.data.access_token,
         });
 
-        setInterval(() => {
-          this.refreshToken();
-        }, (res.data.expires_in - 60) * 1000);
+        this.refreshToken();
       })
       .catch((err) => {
         if (err.response.status === 401) {
           this.setState({
             loggedIn: false,
           });
+          this.refreshCall();
         } else {
           console.log("Error authenticating", err);
         }
@@ -43,24 +48,79 @@ export default class App extends Component {
   }
 
   refreshToken() {
+    const setRefresh = () => {
+      setInterval(() => {
+        this.refreshCall();
+      }, (3600 - 60) * 1000);
+    };
+
+    clearInterval(setRefresh);
+    setRefresh();
+  }
+
+  refreshCall() {
     axios
       .get(`${SERVER_URL}/auth/refresh`, { withCredentials: true })
       .then((res) => {
-        this.setState({ accessToken: res.data.access_token });
+        console.log(res.data.access_token);
+        this.setState({ accessToken: res.data.access_token, loggedIn: true });
+      })
+      .catch((err) => {
+        console.log("Could not refresh token", err);
       });
   }
 
   render() {
-    const { loggedIn, profileData, accessToken } = this.state;
+    const {
+      loggedIn,
+      profileData,
+      accessToken,
+      songSelected,
+      trackUri,
+      trackData,
+    } = this.state;
+
+    const apiHeader = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    const getTrackData = (trackId, track) => {
+      axios
+        .get(`${SPOTIFY_BASE_URL}/audio-analysis/${trackId}`, {
+          headers: apiHeader,
+        })
+        .then((res) => {
+          console.log(res);
+          this.setState({
+            trackUri: track,
+            songSelected: true,
+            trackData: res.data.beats,
+            activeStep: 2,
+          });
+        });
+    };
 
     return (
       <main>
         <div className="gameScreen">
+          {trackData && <Gameplay beats={trackData} />}
           <HorizontalStepper activeStep={this.state.activeStep} />
         </div>
         <div className="sidebar">
           {loggedIn ? (
-            profileData && <SearchSongs accessToken={accessToken} />
+            songSelected ? (
+              <TrackPlayer accessToken={accessToken} trackUri={trackUri} />
+            ) : (
+              profileData && (
+                <SearchSongs
+                  refreshCall={() => this.refreshCall()}
+                  getTrackData={getTrackData}
+                  apiHeader={apiHeader}
+                />
+              )
+            )
           ) : (
             <Login />
           )}
