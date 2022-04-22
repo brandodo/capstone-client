@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
 import "./TrackPlayer.scss";
 
-export default function TrackPlayer({ accessToken, trackUri }) {
+export default function TrackPlayer({ accessToken, trackUri, startGame }) {
   const [play, setPlay] = useState(false);
 
   useEffect(() => setPlay(true), [trackUri]);
@@ -18,6 +18,7 @@ export default function TrackPlayer({ accessToken, trackUri }) {
           token={accessToken}
           callback={(state) => {
             if (!state.isPlaying) setPlay(false);
+            if (state.isPlaying) startGame();
           }}
           play={play}
           uris={trackUri ? [trackUri] : []}

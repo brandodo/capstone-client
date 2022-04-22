@@ -19,6 +19,7 @@ export default class App extends Component {
     songSelected: false,
     trackUri: "",
     trackData: [],
+    gameStart: false,
   };
 
   componentDidMount() {
@@ -78,6 +79,7 @@ export default class App extends Component {
       songSelected,
       trackUri,
       trackData,
+      gameStart,
     } = this.state;
 
     const apiHeader = {
@@ -99,19 +101,32 @@ export default class App extends Component {
             trackData: res.data.beats,
             activeStep: 2,
           });
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            this.refreshCall();
+          }
         });
+    };
+
+    const startGame = () => {
+      this.setState({ gameStart: true });
     };
 
     return (
       <main>
         <div className="gameScreen">
-          {trackData && <Gameplay beats={trackData} />}
+          {gameStart && <Gameplay beats={trackData} />}
           <HorizontalStepper activeStep={this.state.activeStep} />
         </div>
         <div className="sidebar">
           {loggedIn ? (
             songSelected ? (
-              <TrackPlayer accessToken={accessToken} trackUri={trackUri} />
+              <TrackPlayer
+                accessToken={accessToken}
+                trackUri={trackUri}
+                startGame={startGame}
+              />
             ) : (
               profileData && (
                 <SearchSongs
