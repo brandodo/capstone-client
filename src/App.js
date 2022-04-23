@@ -52,7 +52,7 @@ export default class App extends Component {
     const setRefresh = () => {
       setInterval(() => {
         this.refreshCall();
-      }, (3600 - 60) * 1000);
+      }, (3600 - 120) * 1000);
     };
 
     clearInterval(setRefresh);
