@@ -3,10 +3,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     height: 100vh;
   }
 
   &__spotifyContainer {
     width: 80%;
+  }
+
+  &__playerScore {
+    color: white;
   }
 }

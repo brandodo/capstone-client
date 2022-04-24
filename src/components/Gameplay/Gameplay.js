@@ -1,22 +1,28 @@
 import React, { useState, useRef, useEffect } from "react";
 import Circles from "./Circles";
+import { v4 as uuidv4 } from "uuid";
 import "./Gameplay.scss";
 
-export default function Gameplay({ audioData }) {
+export default function Gameplay({ audioData, scorePoints }) {
   const cWidth = useRef(null);
   const cHeight = useRef(null);
   const containerRef = useRef(null);
   const gameGridRef = useRef(null);
 
   const beats = audioData.beats;
+  // const beats = audioData.tatums;
   const tempo = audioData.track.tempo;
-  const interval = 60000 / tempo;
+  const beatsPerSecond = tempo / 60;
+
+  const confidenceArr = beats.map((beat) => beat.confidence);
+  const avgConfidence =
+    confidenceArr.reduce((prev, curr) => prev + curr, 0) / confidenceArr.length;
 
   const gameBeats = beats.filter((beat) => {
-    return beat.confidence > 0.7 && beat.start > 2;
+    return beat.confidence > avgConfidence && beat.start > 3;
   });
 
-  const [timer, setTimer] = useState(0);
+  const [change, setChange] = useState(false);
   const [gameBeat, setGameBeat] = useState(gameBeats);
   const [currentBeat, setCurrentBeat] = useState([]);
 
@@ -36,34 +42,38 @@ export default function Gameplay({ audioData }) {
       ["75%", "70%"],
     ];
 
-    const timeCheck = setInterval(() => {
-      setTimer((timer) => timer + 1);
-    }, Math.floor(interval));
-
-    return () => clearInterval(timeCheck);
+    gameBeats.forEach((beat) => {
+      setTimeout(() => {
+        setChange((change) => !change);
+      }, (beat.start - beatsPerSecond) * 1000);
+    });
   }, []);
 
   useEffect(() => {
-    if (gameBeat.length > 0 && timer >= gameBeat[0].start) {
+    if (gameBeat) {
       const random = Math.floor(Math.random() * gameGridRef.current.length);
       const x = gameGridRef.current[random][0];
       const y = gameGridRef.current[random][1];
-
+      console.log("beat");
       gameBeat.shift();
       const newBeatList = [...gameBeat];
 
       setGameBeat(newBeatList);
       setCurrentBeat([
         ...currentBeat,
-        <Circles x={x} y={y} id={`circle-${timer}`} />,
+        <Circles
+          x={x}
+          y={y}
+          id={uuidv4()}
+          scorePoints={scorePoints}
+          beatsPerSecond={beatsPerSecond}
+        />,
       ]);
-    } else {
-      console.log("game over!");
     }
-  }, [timer]);
+  }, [change]);
 
   return (
-    <div ref={containerRef} className="gameplay__canvasContainer">
+    <div ref={containerRef} className="gameplay__circlesContainer">
       {gameGridRef.current ? currentBeat : ""}
     </div>
   );

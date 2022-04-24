@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
+import Score from "./Score";
 import "./TrackPlayer.scss";
 
-export default function TrackPlayer({ accessToken, trackUri, startGame }) {
+export default function TrackPlayer({
+  accessToken,
+  trackUri,
+  startGame,
+  points,
+}) {
   const [play, setPlay] = useState(false);
 
   useEffect(() => setPlay(true), [trackUri]);
@@ -11,6 +17,7 @@ export default function TrackPlayer({ accessToken, trackUri, startGame }) {
 
   return (
     <div className="sidebar__playerContainer">
+      <Score points={points} />
       <div className="sidebar__currentTrackDetails"></div>
       <div className="sidebar__spotifyContainer">
         <SpotifyPlayer

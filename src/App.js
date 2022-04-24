@@ -20,6 +20,7 @@ export default class App extends Component {
     trackUri: "",
     trackData: [],
     gameStart: false,
+    score: 0,
   };
 
   componentDidMount() {
@@ -80,6 +81,7 @@ export default class App extends Component {
       trackUri,
       trackData,
       gameStart,
+      score,
     } = this.state;
 
     const apiHeader = {
@@ -113,10 +115,16 @@ export default class App extends Component {
       this.setState({ gameStart: true });
     };
 
+    const scorePoints = () => {
+      this.setState({ score: this.state.score + 200 });
+    };
+
     return (
       <main>
         <div className="gameScreen">
-          {gameStart && <Gameplay audioData={trackData} />}
+          {gameStart && (
+            <Gameplay audioData={trackData} scorePoints={scorePoints} />
+          )}
           <HorizontalStepper activeStep={this.state.activeStep} />
         </div>
         <div className="sidebar">
@@ -126,6 +134,7 @@ export default class App extends Component {
                 accessToken={accessToken}
                 trackUri={trackUri}
                 startGame={startGame}
+                points={score}
               />
             ) : (
               profileData && (
