@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import TitleScreen from "./components/TitleScreen/TitleScreen";
 import HorizontalStepper from "./components/HorizontalStepper/HorizontalStepper";
 import Login from "./components/Login/Login";
 import SearchSongs from "./components/SearchSongs/SearchSongs";
@@ -122,6 +123,7 @@ export default class App extends Component {
     return (
       <main>
         <div className="gameScreen">
+          {!gameStart && <TitleScreen />}
           {gameStart && (
             <Gameplay audioData={trackData} scorePoints={scorePoints} />
           )}
