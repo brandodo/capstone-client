@@ -98,7 +98,7 @@ export default class App extends Component {
           this.setState({
             trackUri: track,
             songSelected: true,
-            trackData: res.data.beats,
+            trackData: res.data,
             activeStep: 2,
           });
         })
@@ -116,7 +116,7 @@ export default class App extends Component {
     return (
       <main>
         <div className="gameScreen">
-          {gameStart && <Gameplay beats={trackData} />}
+          {gameStart && <Gameplay audioData={trackData} />}
           <HorizontalStepper activeStep={this.state.activeStep} />
         </div>
         <div className="sidebar">

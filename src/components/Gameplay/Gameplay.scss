@@ -6,11 +6,13 @@
     border: 1px solid white;
 
     &Container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      position: relative;
       width: 90%;
       height: 90%;
     }
   }
+
+  // &__circle {
+  //   width: 20px;
+  // }
 }
