@@ -4,9 +4,10 @@ import HorizontalStepper from "./components/HorizontalStepper/HorizontalStepper"
 import Login from "./components/Login/Login";
 import SearchSongs from "./components/SearchSongs/SearchSongs";
 import TrackPlayer from "./components/TrackPlayer/TrackPlayer";
+import Gameplay from "./components/Gameplay/Gameplay";
+import GameOver from "./components/GameOver/GameOver";
 import "./App.scss";
 import axios from "axios";
-import Gameplay from "./components/Gameplay/Gameplay";
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 const SPOTIFY_BASE_URL = "https://api.spotify.com/v1";
@@ -19,8 +20,10 @@ export default class App extends Component {
     accessToken: "",
     songSelected: false,
     trackUri: "",
+    currentTrack: {},
     trackData: [],
     gameStart: false,
+    songEnd: false,
     score: 0,
   };
 
@@ -79,7 +82,8 @@ export default class App extends Component {
       profileData,
       accessToken,
       songSelected,
-      trackUri,
+      songEnd,
+      currentTrack,
       trackData,
       gameStart,
       score,
@@ -91,7 +95,7 @@ export default class App extends Component {
       Authorization: `Bearer ${accessToken}`,
     };
 
-    const getTrackData = (trackId, track) => {
+    const getTrackData = (trackId, selectedTrack) => {
       axios
         .get(`${SPOTIFY_BASE_URL}/audio-analysis/${trackId}`, {
           headers: apiHeader,
@@ -99,7 +103,8 @@ export default class App extends Component {
         .then((res) => {
           console.log(res);
           this.setState({
-            trackUri: track,
+            trackUri: selectedTrack.uri,
+            currentTrack: selectedTrack,
             songSelected: true,
             trackData: res.data,
             activeStep: 2,
@@ -120,13 +125,34 @@ export default class App extends Component {
       this.setState({ score: this.state.score + 200 });
     };
 
+    const showGameEnd = () => {
+      this.setState({ songEnd: true });
+    };
+
+    const resetState = () => {
+      this.setState({
+        gameStart: false,
+        songEnd: false,
+        songSelected: false,
+        score: 0,
+      });
+    };
+
+    const playAgain = () => {
+      this.setState({ gameStart: true, songEnd: false, score: 0 });
+    };
+
     return (
       <main>
         <div className="gameScreen">
-          {!gameStart && <TitleScreen />}
-          {gameStart && (
+          {gameStart && !songEnd ? (
             <Gameplay audioData={trackData} scorePoints={scorePoints} />
+          ) : songEnd ? (
+            <GameOver />
+          ) : (
+            <TitleScreen />
           )}
+
           <HorizontalStepper activeStep={this.state.activeStep} />
         </div>
         <div className="sidebar">
@@ -134,9 +160,12 @@ export default class App extends Component {
             songSelected ? (
               <TrackPlayer
                 accessToken={accessToken}
-                trackUri={trackUri}
+                currentTrack={currentTrack}
                 startGame={startGame}
                 points={score}
+                showGameEnd={showGameEnd}
+                resetState={resetState}
+                playAgain={playAgain}
               />
             ) : (
               profileData && (

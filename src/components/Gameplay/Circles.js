@@ -14,7 +14,7 @@ export default function Circles({ x, y, id, scorePoints, beatsPerSecond }) {
         r="0"
         stroke="red"
         stroke-width="2"
-        fill="#53FF45"
+        fill="#1db954"
         opacity="1"
         className={`gameplay__circle ${id}`}
         onClick={(event) => {
@@ -42,8 +42,8 @@ export default function Circles({ x, y, id, scorePoints, beatsPerSecond }) {
         />
         <animate
           attributeName="fill"
-          from="#FFA987"
-          to="#53FF45"
+          from="#ff66aa"
+          to="#1db954"
           dur={"1000ms"}
         />
       </circle>

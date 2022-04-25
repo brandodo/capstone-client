@@ -1,0 +1,33 @@
+.sidebar {
+  &__gameOptions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    height: 100%;
+  }
+
+  &__playAgain {
+    text-align: center;
+    color: white;
+    background-color: #ff66aa;
+    width: 100%;
+    padding: 15px;
+    border-radius: 25px;
+    text-shadow: 3px 3px 8px black;
+    box-shadow: 3px 3px 8px black;
+
+    &:hover {
+      cursor: pointer;
+      background-color: grey;
+      transition: all 200ms ease-in-out;
+    }
+  }
+
+  &__newSong {
+    @extend .sidebar__playAgain;
+    background-color: #1db954;
+    margin-top: 30px;
+  }
+}

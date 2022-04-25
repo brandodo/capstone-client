@@ -10,7 +10,6 @@ export default function Gameplay({ audioData, scorePoints }) {
   const gameGridRef = useRef(null);
 
   const beats = audioData.beats;
-  // const beats = audioData.tatums;
   const tempo = audioData.track.tempo;
   const beatsPerSecond = tempo / 60;
 
@@ -25,6 +24,7 @@ export default function Gameplay({ audioData, scorePoints }) {
   const [change, setChange] = useState(false);
   const [gameBeat, setGameBeat] = useState(gameBeats);
   const [currentBeat, setCurrentBeat] = useState([]);
+  const [number, setNumber] = useState();
 
   useEffect(() => {
     cWidth.current = containerRef.current.clientWidth;
@@ -51,10 +51,17 @@ export default function Gameplay({ audioData, scorePoints }) {
 
   useEffect(() => {
     if (gameBeat) {
-      const random = Math.floor(Math.random() * gameGridRef.current.length);
+      let random = Math.floor(Math.random() * gameGridRef.current.length);
+
+      while (random === number) {
+        random = Math.floor(Math.random() * gameGridRef.current.length);
+      }
+
+      setNumber(random);
+
       const x = gameGridRef.current[random][0];
       const y = gameGridRef.current[random][1];
-      console.log("beat");
+
       gameBeat.shift();
       const newBeatList = [...gameBeat];
 

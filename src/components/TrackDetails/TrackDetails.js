@@ -19,7 +19,7 @@ export default function TrackDetails({ track, getTrackData }) {
           console.log(clickedOn);
         }
 
-        getTrackData(clickedOn.id, track.uri);
+        getTrackData(clickedOn.id, track);
       }}
     >
       <img

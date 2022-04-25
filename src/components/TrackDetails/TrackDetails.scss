@@ -1,13 +1,22 @@
 .sidebar {
+  h2 {
+    color: white;
+  }
+
   &__songDetail {
     display: flex;
     align-items: center;
-    width: 80%;
+    width: 90%;
     margin: 20px;
     box-sizing: border-box;
 
     &:hover {
       cursor: pointer;
+      border-radius: 8px;
+      box-shadow: -2px 2px 7px black;
+      transition: all 200ms ease-in-out;
+      background-color: grey;
+      padding: 10px;
     }
   }
 
