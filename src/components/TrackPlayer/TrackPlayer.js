@@ -18,6 +18,7 @@ export default function TrackPlayer({
   const [play, setPlay] = useState(false);
   const [timer, setTimer] = useState();
   const [options, setOptions] = useState(false);
+  const [show, setShow] = useState(false);
   const { images } = currentTrack.album;
   const { uri, name, artists } = currentTrack;
 
@@ -27,6 +28,15 @@ export default function TrackPlayer({
     leave: { x: 100, opacity: 0 },
     config: config.slow,
   });
+
+  const trackTransition = useTransition(show, {
+    from: { y: -300, opacity: 0 },
+    enter: { y: 0, opacity: 1 },
+    leave: { y: 300, opacity: 0 },
+    config: config.slow,
+  });
+
+  useEffect(() => setShow(true), []);
 
   useEffect(() => setPlay(true), [uri]);
 
@@ -41,50 +51,52 @@ export default function TrackPlayer({
 
   if (!accessToken) return null;
 
-  return (
-    <div className="sidebar__playerContainer">
-      <Score points={points} />
-      <CurrentTrack images={images} name={name} artists={artists} />
-      {options &&
-        optionsTransition(
-          (styles, item) =>
-            item && (
-              <animated.div
-                className="sidebar__animatedContainer"
-                style={styles}
-              >
-                <GameOptions
-                  resetState={resetState}
-                  playAgain={playAgain}
-                  setPlay={setPlay}
-                  setOptions={setOptions}
-                />
-              </animated.div>
-            )
-        )}
-      <div className="sidebar__spotifyContainer">
-        <SpotifyPlayer
-          className="sidebar__spotifyPlayer"
-          token={accessToken}
-          callback={(state) => {
-            if (!state.isPlaying) setPlay(false);
-            if (state.isPlaying) {
-              startGame();
-              setTimer(state.track.durationMs);
-            }
-          }}
-          play={play}
-          uris={uri ? [uri] : []}
-          styles={{
-            activeColor: "green",
-            sliderColor: "#1db954",
-            loaderSize: 10,
-            display: "none",
-          }}
-          syncExternalDevice={false}
-          autoPlay
-        />
-      </div>
-    </div>
+  return trackTransition(
+    (styles, show) =>
+      show && (
+        <animated.div className="sidebar__playerContainer" style={styles}>
+          <Score points={points} />
+          <CurrentTrack images={images} name={name} artists={artists} />
+          {optionsTransition(
+            (styles, options) =>
+              options && (
+                <animated.div
+                  className="sidebar__animatedContainer"
+                  style={styles}
+                >
+                  <GameOptions
+                    resetState={resetState}
+                    playAgain={playAgain}
+                    setPlay={setPlay}
+                    setOptions={setOptions}
+                  />
+                </animated.div>
+              )
+          )}
+          <div className="sidebar__spotifyContainer">
+            <SpotifyPlayer
+              className="sidebar__spotifyPlayer"
+              token={accessToken}
+              callback={(state) => {
+                if (!state.isPlaying) setPlay(false);
+                if (state.isPlaying) {
+                  startGame();
+                  setTimer(state.track.durationMs);
+                }
+              }}
+              play={play}
+              uris={uri ? [uri] : []}
+              styles={{
+                activeColor: "green",
+                sliderColor: "#1db954",
+                loaderSize: 10,
+                display: "none",
+              }}
+              syncExternalDevice={false}
+              autoPlay
+            />
+          </div>
+        </animated.div>
+      )
   );
 }

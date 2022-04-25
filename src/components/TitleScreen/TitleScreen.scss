@@ -1,18 +1,15 @@
 .gameplay {
   &__titleContainer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     width: 100%;
     color: #1db954;
-    border: 1px solid white;
   }
 
   &__titleText {
-    font-size: 62px;
+    font-size: 84px;
     margin-right: 60px;
     padding: 15px 30px;
   }
 }
-
-

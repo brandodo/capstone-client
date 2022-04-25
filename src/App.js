@@ -139,7 +139,7 @@ export default class App extends Component {
     };
 
     const playAgain = () => {
-      this.setState({ gameStart: true, songEnd: false, score: 0 });
+      this.setState({ songEnd: false, score: 0 });
     };
 
     return (

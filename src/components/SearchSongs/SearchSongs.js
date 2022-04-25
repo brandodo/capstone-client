@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useTransition, animated, config } from "react-spring";
+import { useSpring, useTransition, animated, config } from "react-spring";
 import TrackDetails from "../TrackDetails/TrackDetails";
 import "./SearchSongs.scss";
 
@@ -14,10 +14,17 @@ export default function SearchSongs({ apiHeader, refreshCall, getTrackData }) {
   const [searching, setSearching] = useState(false);
 
   const transition = useTransition(items, {
-    from: { x: -100, opacity: 0 },
+    from: { x: -50, opacity: 0 },
     enter: { x: 0, opacity: 1 },
-    leave: { x: 100, opacity: 0 },
+    leave: { x: 500, opacity: 0 },
+    config: config.wobbly,
+  });
+
+  const searchOffset = useSpring({
+    to: { y: 0, opacity: 1 },
+    from: { y: -200, opacity: 0 },
     config: config.slow,
+    delay: 2500,
   });
 
   const searchSongs = (search) => {
@@ -54,10 +61,11 @@ export default function SearchSongs({ apiHeader, refreshCall, getTrackData }) {
 
   return (
     <div className="sidebar__searchContainer">
-      <input
+      <animated.input
         className="sidebar__searchBar"
         type="search"
         placeholder="Search for tracks..."
+        style={searchOffset}
         onKeyUp={(event) => {
           if (event.key === "Enter") {
             searchSongs(search);
