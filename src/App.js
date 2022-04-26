@@ -8,6 +8,8 @@ import Gameplay from "./components/Gameplay/Gameplay";
 import GameOver from "./components/GameOver/GameOver";
 import "./App.scss";
 import axios from "axios";
+import ParticlesBackground from "./components/ParticlesBackground/ParticlesBackground";
+import UserProfile from "./components/UserProfile/UserProfile";
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 const SPOTIFY_BASE_URL = "https://api.spotify.com/v1";
@@ -135,6 +137,7 @@ export default class App extends Component {
         songEnd: false,
         songSelected: false,
         score: 0,
+        activeStep: 1,
       });
     };
 
@@ -145,12 +148,17 @@ export default class App extends Component {
     return (
       <main>
         <div className="gameScreen">
+          <ParticlesBackground />
           {gameStart && !songEnd ? (
             <Gameplay audioData={trackData} scorePoints={scorePoints} />
           ) : songEnd ? (
             <GameOver />
           ) : (
-            <TitleScreen />
+            <>
+              {profileData && <UserProfile profile={profileData} />}
+
+              <TitleScreen />
+            </>
           )}
 
           <HorizontalStepper activeStep={this.state.activeStep} />

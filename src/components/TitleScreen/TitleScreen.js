@@ -12,9 +12,19 @@ export default function TitleScreen() {
   const [show, setShow] = useState(false);
 
   const colorTransition = useSpring({
-    to: { color: "#ff66aa", fontSize: 120 },
-    from: { color: "#1db954", fontSize: 50 },
-    delay: 1500,
+    to: {
+      color: "#1db954",
+      fontSize: 100,
+      paddingTop: 80,
+      paddingBottom: 80,
+    },
+    from: {
+      color: "#ff66aa",
+      fontSize: 64,
+      paddingTop: 50,
+      paddingBottom: 50,
+    },
+    delay: 2000,
     config: {
       mass: 1,
       tension: 180,
@@ -41,7 +51,10 @@ export default function TitleScreen() {
         (styles, show) =>
           show && (
             <animated.h1 className="gameplay__titleText" style={styles}>
-              Sp<animated.span style={colorTransition}>OSU!</animated.span>fy
+              {/* Sp<animated.span style={colorTransition}>OSU!</animated.span>fy */}
+              <animated.h1 className="gameplay__titleText" style={styles}>
+                aim<animated.span style={colorTransition}>Beats</animated.span>
+              </animated.h1>
             </animated.h1>
           )
       )}

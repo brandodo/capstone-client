@@ -12,8 +12,8 @@ export default function Circles({ x, y, id, scorePoints, beatsPerSecond }) {
         cx="100"
         cy="100"
         r="0"
-        stroke="red"
-        stroke-width="2"
+        stroke="white"
+        stroke-width="3"
         fill="#1db954"
         opacity="1"
         className={`gameplay__circle ${id}`}
@@ -36,7 +36,7 @@ export default function Circles({ x, y, id, scorePoints, beatsPerSecond }) {
         />
         <animate
           attributeName="opacity"
-          from="0.1"
+          from="0.5"
           to="1"
           dur={beatsPerSecond * 500 + "ms"}
         />

@@ -3,6 +3,7 @@
 body {
   background-color: #000000;
   font-family: "Noma-Reg";
+  overflow: hidden;
 }
 
 main {
@@ -19,5 +20,4 @@ main {
   width: 25%;
   height: 100vh;
   background-color: #224c7d;
-  overflow: hidden;
 }

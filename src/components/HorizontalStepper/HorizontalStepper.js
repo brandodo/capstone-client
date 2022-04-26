@@ -9,11 +9,11 @@ export default function HorizontalStepper({ activeStep }) {
 
   const [show, setShow] = useState(false);
   const transition = useTransition(show, {
-    from: { x: -500, opacity: 0 },
-    enter: { x: 0, y: 0, opacity: 1 },
-    leave: { y: 100, opacity: 0 },
-    config: config.wobbly,
-    delay: 2000,
+    from: { y: 200, opacity: 0 },
+    enter: { y: 0, opacity: 1 },
+    leave: { y: 200, opacity: 0 },
+    config: config.slow,
+    delay: 2500,
   });
 
   useEffect(() => {

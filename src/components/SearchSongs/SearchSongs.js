@@ -14,17 +14,17 @@ export default function SearchSongs({ apiHeader, refreshCall, getTrackData }) {
   const [searching, setSearching] = useState(false);
 
   const transition = useTransition(items, {
-    from: { x: -50, opacity: 0 },
+    from: { x: -350, opacity: 0 },
     enter: { x: 0, opacity: 1 },
     leave: { x: 500, opacity: 0 },
-    config: config.wobbly,
+    config: config.slow,
   });
 
   const searchOffset = useSpring({
     to: { y: 0, opacity: 1 },
     from: { y: -200, opacity: 0 },
     config: config.slow,
-    delay: 2500,
+    delay: 2000,
   });
 
   const searchSongs = (search) => {

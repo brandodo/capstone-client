@@ -3,13 +3,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
     width: 100%;
-    color: #1db954;
+    height: 100%;
+    color: #ff66aa;
   }
 
   &__titleText {
-    font-size: 84px;
+    font-size: 64px;
     margin-right: 60px;
     padding: 15px 30px;
+
+    & > span {
+      border-radius: 50%;
+      border: 6px solid white;
+      color: white;
+    }
   }
 }
