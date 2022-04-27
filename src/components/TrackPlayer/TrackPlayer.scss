@@ -44,6 +44,7 @@
     font-size: 20px;
     margin-bottom: 0;
     text-shadow: 3px 3px 8px black;
+    text-align: center;
   }
 
   &__currentTrackArtist {
@@ -51,9 +52,9 @@
     font-size: 14px;
     margin: 0;
     padding: 0;
-    color: white;
+    color: gray;
     text-shadow: 3px 3px 8px black;
-    // padding-bottom: 50px;
+    text-align: center;
   }
 
   &__animatedContainer {

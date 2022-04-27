@@ -28,6 +28,7 @@ export default class App extends Component {
     songEnd: false,
     score: 0,
     stepperShow: false,
+    playerScores: [],
   };
 
   componentDidMount() {
