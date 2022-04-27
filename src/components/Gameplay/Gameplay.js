@@ -61,6 +61,8 @@ export default function Gameplay({ audioData, scorePoints }) {
 
       const x = gameGridRef.current[random][0];
       const y = gameGridRef.current[random][1];
+      const xInt = cWidth.current * (parseFloat(x.replace("%", "")) / 100);
+      const yInt = cHeight.current * (parseFloat(y.replace("%", "")) / 100);
 
       gameBeat.shift();
       const newBeatList = [...gameBeat];
@@ -71,6 +73,8 @@ export default function Gameplay({ audioData, scorePoints }) {
         <Circles
           x={x}
           y={y}
+          xInt={xInt}
+          yInt={yInt}
           id={uuidv4()}
           scorePoints={scorePoints}
           beatsPerSecond={beatsPerSecond}

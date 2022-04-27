@@ -14,11 +14,13 @@ export default function TrackPlayer({
   showGameEnd,
   resetState,
   playAgain,
+  recordScore,
 }) {
   const [play, setPlay] = useState(false);
   const [timer, setTimer] = useState();
   const [options, setOptions] = useState(false);
   const [show, setShow] = useState(false);
+  const [record, setRecord] = useState(false);
   const { images } = currentTrack.album;
   const { uri, name, artists } = currentTrack;
 
@@ -43,11 +45,18 @@ export default function TrackPlayer({
   useEffect(() => {
     if (timer > 0) {
       setTimeout(() => {
+        setRecord(true);
         showGameEnd();
         setOptions(true);
       }, timer + 3000);
     }
   }, [timer]);
+
+  useEffect(() => {
+    if (record === true) {
+      recordScore(name, artists[0].name, points);
+    }
+  }, [record]);
 
   if (!accessToken) return null;
 
@@ -86,12 +95,6 @@ export default function TrackPlayer({
               }}
               play={play}
               uris={uri ? [uri] : []}
-              styles={{
-                activeColor: "green",
-                sliderColor: "#1db954",
-                loaderSize: 10,
-                display: "none",
-              }}
               syncExternalDevice={false}
               autoPlay
             />

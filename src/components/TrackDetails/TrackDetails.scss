@@ -9,12 +9,12 @@
     width: 90%;
     margin: 20px;
     box-sizing: border-box;
+    transition: all 200ms ease;
 
     &:hover {
       cursor: pointer;
       border-radius: 8px;
       box-shadow: -2px 2px 7px black;
-      transition: all 200ms ease-in-out;
       background-color: grey;
       padding: 10px;
     }

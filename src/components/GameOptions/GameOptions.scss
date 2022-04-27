@@ -17,11 +17,11 @@
     border-radius: 25px;
     text-shadow: 3px 3px 8px black;
     box-shadow: 3px 3px 8px black;
+    transition: all 200ms ease;
 
     &:hover {
       cursor: pointer;
       background-color: grey;
-      transition: all 200ms ease-in-out;
     }
   }
 

@@ -27,6 +27,7 @@ export default class App extends Component {
     gameStart: false,
     songEnd: false,
     score: 0,
+    stepperShow: false,
   };
 
   componentDidMount() {
@@ -89,6 +90,7 @@ export default class App extends Component {
       trackData,
       gameStart,
       score,
+      stepperShow,
     } = this.state;
 
     const apiHeader = {
@@ -138,11 +140,32 @@ export default class App extends Component {
         songSelected: false,
         score: 0,
         activeStep: 1,
+        stepperShow: true,
       });
     };
 
     const playAgain = () => {
       this.setState({ songEnd: false, score: 0 });
+    };
+
+    const showStepper = (bool) => {
+      this.setState({ stepperShow: bool });
+    };
+
+    const recordScore = (song, artist, points) => {
+      axios
+        .post(`${SERVER_URL}/score`, {
+          player_id: profileData.spotify_id,
+          song,
+          artist,
+          score: points,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     };
 
     return (
@@ -155,13 +178,19 @@ export default class App extends Component {
             <GameOver />
           ) : (
             <>
-              {profileData && <UserProfile profile={profileData} />}
+              {profileData && (
+                <UserProfile profile={profileData} show={stepperShow} />
+              )}
 
-              <TitleScreen />
+              <TitleScreen show={stepperShow} />
             </>
           )}
 
-          <HorizontalStepper activeStep={this.state.activeStep} />
+          <HorizontalStepper
+            activeStep={this.state.activeStep}
+            show={stepperShow}
+            showStepper={showStepper}
+          />
         </div>
         <div className="sidebar">
           {loggedIn ? (
@@ -174,6 +203,7 @@ export default class App extends Component {
                 showGameEnd={showGameEnd}
                 resetState={resetState}
                 playAgain={playAgain}
+                recordScore={recordScore}
               />
             ) : (
               profileData && (
@@ -181,6 +211,7 @@ export default class App extends Component {
                   refreshCall={() => this.refreshCall()}
                   getTrackData={getTrackData}
                   apiHeader={apiHeader}
+                  showStepper={showStepper}
                 />
               )
             )

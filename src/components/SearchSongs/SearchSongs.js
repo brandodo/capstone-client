@@ -6,7 +6,12 @@ import "./SearchSongs.scss";
 
 const SPOTIFY_BASE_URL = "https://api.spotify.com/v1";
 
-export default function SearchSongs({ apiHeader, refreshCall, getTrackData }) {
+export default function SearchSongs({
+  apiHeader,
+  refreshCall,
+  getTrackData,
+  showStepper,
+}) {
   const [tracks, setTracks] = useState([]);
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState();
@@ -89,6 +94,7 @@ export default function SearchSongs({ apiHeader, refreshCall, getTrackData }) {
                       track={track}
                       key={track.uri}
                       getTrackData={getTrackData}
+                      showStepper={showStepper}
                     />
                   </animated.div>
                 );
