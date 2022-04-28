@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSpring, useTransition, animated, config } from "react-spring";
+import { Snackbar, Slide, Alert } from "@mui/material";
+import { useTransition, animated, config } from "react-spring";
 import TrackDetails from "../TrackDetails/TrackDetails";
 import "./SearchSongs.scss";
 
@@ -11,23 +12,26 @@ export default function SearchSongs({
   refreshCall,
   getTrackData,
   showStepper,
+  show,
 }) {
   const [tracks, setTracks] = useState([]);
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState();
   const [toggle, setToggle] = useState(false);
   const [searching, setSearching] = useState(false);
+  const [error, showError] = useState(false);
 
   const transition = useTransition(items, {
     from: { x: -350, opacity: 0 },
     enter: { x: 0, opacity: 1 },
     leave: { x: 500, opacity: 0 },
-    config: config.slow,
+    config: config.stiff,
   });
 
-  const searchOffset = useSpring({
-    to: { y: 0, opacity: 1 },
+  const searchTransition = useTransition(show, {
     from: { y: -200, opacity: 0 },
+    enter: { y: 0, opacity: 1 },
+    leave: { y: -200, opacity: 0 },
     config: config.slow,
     delay: 2000,
   });
@@ -54,10 +58,15 @@ export default function SearchSongs({
         })
         .catch((err) => {
           if (err.response.status === 401) {
+            showError(true);
             refreshCall();
           }
         });
     }
+  };
+
+  const TransitionDown = (props) => {
+    return <Slide {...props} direction="down" />;
   };
 
   useEffect(() => {
@@ -66,20 +75,25 @@ export default function SearchSongs({
 
   return (
     <div className="sidebar__searchContainer">
-      <animated.input
-        className="sidebar__searchBar"
-        type="search"
-        placeholder="Search for tracks..."
-        style={searchOffset}
-        onKeyUp={(event) => {
-          if (event.key === "Enter") {
-            searchSongs(search);
-          }
-        }}
-        onChange={(event) => {
-          setSearch(event.target.value);
-        }}
-      />
+      {searchTransition(
+        (styles, show) =>
+          show && (
+            <animated.input
+              className="sidebar__searchBar"
+              type="search"
+              placeholder="Search for tracks..."
+              style={styles}
+              onKeyUp={(event) => {
+                if (event.key === "Enter") {
+                  searchSongs(search);
+                }
+              }}
+              onChange={(event) => {
+                setSearch(event.target.value);
+              }}
+            />
+          )
+      )}
       <div className="sidebar__songsList">
         {searching ? (
           <h2>Searching...</h2>
@@ -102,6 +116,16 @@ export default function SearchSongs({
           )
         )}
       </div>
+
+      <Snackbar
+        open={error}
+        TransitionComponent={TransitionDown}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert severity="error" sx={{ width: "100%" }}>
+          There was an error processing your request, please try again.
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

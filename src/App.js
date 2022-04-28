@@ -92,6 +92,7 @@ export default class App extends Component {
       gameStart,
       score,
       stepperShow,
+      playerScores,
     } = this.state;
 
     const apiHeader = {
@@ -106,7 +107,6 @@ export default class App extends Component {
           headers: apiHeader,
         })
         .then((res) => {
-          console.log(res);
           this.setState({
             trackUri: selectedTrack.uri,
             currentTrack: selectedTrack,
@@ -162,7 +162,18 @@ export default class App extends Component {
           score: points,
         })
         .then((res) => {
-          console.log(res);
+          this.setState({ playerScores: res.data });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    const logout = () => {
+      axios
+        .get(`${SERVER_URL}/auth/logout`)
+        .then((res) => {
+          this.setState({ loggedIn: false, profileData: null, activeStep: 0 });
         })
         .catch((err) => {
           console.log(err);
@@ -176,11 +187,16 @@ export default class App extends Component {
           {gameStart && !songEnd ? (
             <Gameplay audioData={trackData} scorePoints={scorePoints} />
           ) : songEnd ? (
-            <GameOver />
+            <GameOver playerScores={playerScores} />
           ) : (
             <>
               {profileData && (
-                <UserProfile profile={profileData} show={stepperShow} />
+                <UserProfile
+                  profile={profileData}
+                  show={stepperShow}
+                  logout={logout}
+                  showStepper={showStepper}
+                />
               )}
 
               <TitleScreen show={stepperShow} />
@@ -213,6 +229,7 @@ export default class App extends Component {
                   getTrackData={getTrackData}
                   apiHeader={apiHeader}
                   showStepper={showStepper}
+                  show={stepperShow}
                 />
               )
             )

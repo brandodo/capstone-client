@@ -9,7 +9,7 @@ export default function Login() {
     from: { x: 200, opacity: 0 },
     to: { x: 0, opacity: 1 },
     config: config.slow,
-    delay: 3500,
+    delay: 2500,
   });
 
   return (

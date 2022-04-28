@@ -44,7 +44,6 @@ export default function TitleScreen({ show }) {
         (styles, show) =>
           show && (
             <animated.h1 className="gameplay__titleText" style={styles}>
-              {/* Sp<animated.span style={colorTransition}>OSU!</animated.span>fy */}
               <animated.h1 className="gameplay__titleText" style={styles}>
                 aim<animated.span style={colorTransition}>BEATS</animated.span>
               </animated.h1>

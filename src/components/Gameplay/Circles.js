@@ -4,16 +4,22 @@ import { useSpring, animated, config } from "react-spring";
 export default function Circles({
   x,
   y,
-  xInt, 
+  xInt,
   yInt,
   id,
   scorePoints,
   beatsPerSecond,
 }) {
   const shrinkCircle = useSpring({
-    to: { r: 0, opacity: 1 },
-    from: { r: 100, opacity: 0.5 },
+    to: { r: 0, opacity: 1, stroke: "#1db954" },
+    from: { r: 100, opacity: 0.85, stroke: "white" },
     config: { duration: beatsPerSecond * 1000 },
+  });
+
+  const colorCircle = useSpring({
+    to: { opacity: 0.75 },
+    from: { opacity: 0.3 },
+    config: { duration: beatsPerSecond * 500 },
   });
 
   const emojiFlick = useSpring({
@@ -23,7 +29,7 @@ export default function Circles({
     delay: 500,
   });
 
-  const emojiArr = ["😸", "🥳", "👌", "👍", "🍻", "🚀", "❤️"];
+  const emojiArr = ["😸", "🥳", "👌", "👍", "🍻", "🚀", "❤️", "🔥"];
   const randomIndex = Math.floor(Math.random() * emojiArr.length);
   const emoji = emojiArr[randomIndex];
   const [show, setShow] = useState(false);
@@ -63,6 +69,21 @@ export default function Circles({
             scorePoints();
           }}
         />
+        {/* <animated.circle
+          cx="100"
+          cy="100"
+          r="50"
+          stroke="#1db954"
+          stroke-width="0"
+          fill="#1db954"
+          opacity="0.75"
+          style={colorCircle}
+          onClick={(event) => {
+            event.target.parentNode.style.display = "none";
+            setShow(true);
+            scorePoints();
+          }}
+        /> */}
       </svg>
     </>
   );

@@ -42,11 +42,29 @@ export default function Gameplay({ audioData, scorePoints }) {
       ["75%", "70%"],
     ];
 
-    gameBeats.forEach((beat) => {
-      setTimeout(() => {
+    let start;
+    let counter = 0;
+    let myReq;
+
+    const loop = (time) => {
+      if (start === undefined) {
+        start = time;
+      }
+
+      const elapsed = (time - start) / 1000;
+
+      let currentBeat = gameBeat[counter]?.start || undefined;
+
+      if (currentBeat && elapsed >= currentBeat - beatsPerSecond) {
         setChange((change) => !change);
-      }, (beat.start - beatsPerSecond) * 1000);
-    });
+        counter++;
+      } else {
+        cancelAnimationFrame(myReq);
+      }
+      myReq = requestAnimationFrame(loop);
+    };
+
+    myReq = requestAnimationFrame(loop);
   }, []);
 
   useEffect(() => {

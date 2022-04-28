@@ -1,0 +1,45 @@
+@use "../../styles/partials/fonts";
+
+.gameplay {
+  &__gameOver {
+    max-height: 50%;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: rgba(155, 155, 155, 0.3);
+    margin-top: 5%;
+    border-radius: 25px;
+    overflow: scroll;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__gameOver > table th {
+    font-size: 36px;
+    color: #1db954;
+    text-align: left;
+    padding: 40px 40px 0 40px;
+  }
+
+  &__gameOver > table td {
+    font-size: 24px;
+    color: white;
+    font-family: "Noma-Light";
+    text-align: left;
+    padding: 8px 40px;
+  }
+
+  &__amazed {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 50%;
+    z-index: 0;
+    opacity: 0.5;
+    border-radius: 50%;
+  }
+}
