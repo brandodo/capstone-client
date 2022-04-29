@@ -71,8 +71,6 @@ export default class App extends Component {
   }
 
   async refreshCall() {
-    this.setState({ error: true });
-
     await axios
       .get(`${SERVER_URL}/auth/refresh`, { withCredentials: true })
       .then((res) => {
