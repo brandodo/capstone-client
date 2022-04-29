@@ -11,8 +11,9 @@ import axios from "axios";
 import ParticlesBackground from "./components/ParticlesBackground/ParticlesBackground";
 import UserProfile from "./components/UserProfile/UserProfile";
 import { Snackbar, Slide, Alert } from "@mui/material";
+import API_URL from "./config/index";
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const SERVER_URL = API_URL;
 const SPOTIFY_BASE_URL = "https://api.spotify.com/v1";
 let setRefresh;
 
