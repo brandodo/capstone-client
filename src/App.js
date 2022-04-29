@@ -44,7 +44,6 @@ export default class App extends Component {
     axios
       .get(`${SERVER_URL}/auth/profile`, { withCredentials: true })
       .then((res) => {
-        console.log(res.data);
         this.setState({
           loggedIn: true,
           profileData: res.data,
