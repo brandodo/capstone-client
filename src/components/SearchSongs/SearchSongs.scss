@@ -8,6 +8,11 @@
     overflow-x: hidden;
   }
 
+  &__searchLoading {
+    color: white;
+    text-shadow: 3px 3px 8px black;
+  }
+
   &__searchBar {
     color: #fff;
     background-color: transparent;

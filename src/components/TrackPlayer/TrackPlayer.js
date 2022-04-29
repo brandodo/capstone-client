@@ -15,6 +15,8 @@ export default function TrackPlayer({
   resetState,
   playAgain,
   recordScore,
+  combo,
+  multiplier,
 }) {
   const [play, setPlay] = useState(false);
   const [timer, setTimer] = useState();
@@ -46,6 +48,7 @@ export default function TrackPlayer({
     if (timer > 0) {
       setTimeout(() => {
         setRecord(true);
+        setRecord(false);
         showGameEnd();
         setOptions(true);
       }, timer + 3000);
@@ -54,7 +57,7 @@ export default function TrackPlayer({
 
   useEffect(() => {
     if (record === true) {
-      recordScore(name, artists[0].name, points);
+      recordScore(name, artists[0].name, points, combo);
     }
   }, [record]);
 
@@ -64,7 +67,7 @@ export default function TrackPlayer({
     (styles, show) =>
       show && (
         <animated.div className="sidebar__playerContainer" style={styles}>
-          <Score points={points} />
+          <Score points={points} combo={combo} multiplier={multiplier} />
           <CurrentTrack images={images} name={name} artists={artists} />
           {optionsTransition(
             (styles, options) =>

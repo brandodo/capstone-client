@@ -9,8 +9,8 @@ export default function GameOver({ playerScores }) {
     .sort((a, b) => {
       return b.score - a.score;
     })
-    .map((player) => {
-      return <PlayerScore player={player} />;
+    .map((player, index) => {
+      return <PlayerScore player={player} rank={index + 1} />;
     });
 
   const [show, setShow] = useState(false);
@@ -31,9 +31,10 @@ export default function GameOver({ playerScores }) {
       <table>
         <thead>
           <tr>
+            <th>No.</th>
             <th>Player</th>
             <th>Score</th>
-            <th>Date</th>
+            <th>Max Combo</th>
           </tr>
         </thead>
         <tbody>{scoreRows}</tbody>

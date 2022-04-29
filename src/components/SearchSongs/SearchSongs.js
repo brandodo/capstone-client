@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Snackbar, Slide, Alert } from "@mui/material";
+
 import { useTransition, animated, config } from "react-spring";
 import TrackDetails from "../TrackDetails/TrackDetails";
 import "./SearchSongs.scss";
@@ -19,7 +19,6 @@ export default function SearchSongs({
   const [search, setSearch] = useState();
   const [toggle, setToggle] = useState(false);
   const [searching, setSearching] = useState(false);
-  const [error, showError] = useState(false);
 
   const transition = useTransition(items, {
     from: { x: -350, opacity: 0 },
@@ -58,15 +57,10 @@ export default function SearchSongs({
         })
         .catch((err) => {
           if (err.response.status === 401) {
-            showError(true);
             refreshCall();
           }
         });
     }
-  };
-
-  const TransitionDown = (props) => {
-    return <Slide {...props} direction="down" />;
   };
 
   useEffect(() => {
@@ -96,7 +90,7 @@ export default function SearchSongs({
       )}
       <div className="sidebar__songsList">
         {searching ? (
-          <h2>Searching...</h2>
+          <h2 className="sidebar__searchLoading">Searching...</h2>
         ) : (
           transition(
             (styles, item) =>
@@ -116,16 +110,6 @@ export default function SearchSongs({
           )
         )}
       </div>
-
-      <Snackbar
-        open={error}
-        TransitionComponent={TransitionDown}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert severity="error" sx={{ width: "100%" }}>
-          There was an error processing your request, please try again.
-        </Alert>
-      </Snackbar>
     </div>
   );
 }

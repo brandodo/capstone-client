@@ -16,12 +16,6 @@ export default function Circles({
     config: { duration: beatsPerSecond * 1000 },
   });
 
-  const colorCircle = useSpring({
-    to: { opacity: 0.75 },
-    from: { opacity: 0.3 },
-    config: { duration: beatsPerSecond * 500 },
-  });
-
   const emojiFlick = useSpring({
     to: { x: xInt + 100, y: yInt + 100, opacity: 0.5, rotateZ: 720 },
     from: { x: xInt, y: yInt, opacity: 1, rotateZ: 0 },
@@ -64,26 +58,14 @@ export default function Circles({
           className={`gameplay__circle ${id}`}
           style={shrinkCircle}
           onClick={(event) => {
+            const parentId = event.target.parentNode.id;
+            const circleId = parseInt(parentId.replace("circle-", ""));
+
             event.target.parentNode.style.display = "none";
             setShow(true);
-            scorePoints();
+            scorePoints(circleId);
           }}
         />
-        {/* <animated.circle
-          cx="100"
-          cy="100"
-          r="50"
-          stroke="#1db954"
-          stroke-width="0"
-          fill="#1db954"
-          opacity="0.75"
-          style={colorCircle}
-          onClick={(event) => {
-            event.target.parentNode.style.display = "none";
-            setShow(true);
-            scorePoints();
-          }}
-        /> */}
       </svg>
     </>
   );

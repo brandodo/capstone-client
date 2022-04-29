@@ -1,8 +1,4 @@
 .sidebar {
-  h2 {
-    color: white;
-  }
-
   &__songDetail {
     display: flex;
     align-items: center;
@@ -22,6 +18,7 @@
 
   &__songAlbum {
     border-radius: 7px;
+    box-shadow: 3px 3px 8px black;
   }
 
   &__songText {
@@ -32,6 +29,7 @@
   &__songName,
   &__songArtist {
     margin: 0;
+    text-shadow: 3px 3px 8px black;
   }
 
   &__songName {

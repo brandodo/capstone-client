@@ -10,9 +10,11 @@ import "./App.scss";
 import axios from "axios";
 import ParticlesBackground from "./components/ParticlesBackground/ParticlesBackground";
 import UserProfile from "./components/UserProfile/UserProfile";
+import { Snackbar, Slide, Alert } from "@mui/material";
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 const SPOTIFY_BASE_URL = "https://api.spotify.com/v1";
+let setRefresh;
 
 export default class App extends Component {
   state = {
@@ -29,6 +31,12 @@ export default class App extends Component {
     score: 0,
     stepperShow: false,
     playerScores: [],
+    error: false,
+    combo: 0,
+    lastCircle: 0,
+    comboArr: [],
+    maxCombo: 0,
+    multiplier: 1,
   };
 
   componentDidMount() {
@@ -43,37 +51,39 @@ export default class App extends Component {
           accessToken: res.data.access_token,
         });
 
-        this.refreshToken();
+        setRefresh = setInterval(() => {
+          this.refreshCall();
+        }, (res.data.expires_in - 120) * 1000);
       })
       .catch((err) => {
         if (err.response.status === 401) {
           this.setState({
             loggedIn: false,
           });
-          this.refreshCall();
         } else {
           console.log("Error authenticating", err);
         }
       });
   }
 
-  refreshToken() {
-    const setRefresh = () => {
-      setInterval(() => {
-        this.refreshCall();
-      }, (3600 - 120) * 1000);
-    };
-
+  componentWillUnmount() {
     clearInterval(setRefresh);
-    setRefresh();
   }
 
-  refreshCall() {
-    axios
+  async refreshCall() {
+    this.setState({ error: true });
+
+    await axios
       .get(`${SERVER_URL}/auth/refresh`, { withCredentials: true })
       .then((res) => {
-        console.log(res.data.access_token);
-        this.setState({ accessToken: res.data.access_token, loggedIn: true });
+        this.setState({
+          accessToken: res.data.access_token,
+          loggedIn: true,
+        });
+
+        setTimeout(() => {
+          this.setState({ error: false });
+        }, 2000);
       })
       .catch((err) => {
         console.log("Could not refresh token", err);
@@ -93,6 +103,9 @@ export default class App extends Component {
       score,
       stepperShow,
       playerScores,
+      error,
+      combo,
+      multiplier,
     } = this.state;
 
     const apiHeader = {
@@ -126,8 +139,37 @@ export default class App extends Component {
       this.setState({ gameStart: true });
     };
 
-    const scorePoints = () => {
-      this.setState({ score: this.state.score + 200 });
+    const scorePoints = (counter) => {
+      if (counter - this.state.lastCircle === 1) {
+        this.setState({ combo: this.state.combo + 1, lastCircle: counter });
+      } else {
+        this.setState({
+          combo: 0,
+          lastCircle: counter,
+          comboArr: [...this.state.comboArr, this.state.combo],
+        });
+      }
+
+      switch (this.state.combo) {
+        case 10:
+          this.setState({ multiplier: 2 });
+          break;
+        case 20:
+          this.setState({ multiplier: 4 });
+          break;
+        case 30:
+          this.setState({ multiplier: 6 });
+          break;
+        case 40:
+          this.setState({ multiplier: 8 });
+          break;
+        case 0:
+          this.setState({ multiplier: 1 });
+      }
+
+      const score = 200 * this.state.multiplier;
+
+      this.setState({ score: this.state.score + score });
     };
 
     const showGameEnd = () => {
@@ -153,13 +195,17 @@ export default class App extends Component {
       this.setState({ stepperShow: bool });
     };
 
-    const recordScore = (song, artist, points) => {
+    const recordScore = (song, artist, points, combo) => {
+      const tempArr = [...this.state.comboArr, combo];
+      const maxCombo = Math.max(...tempArr);
+
       axios
         .post(`${SERVER_URL}/score`, {
           player_id: profileData.spotify_id,
           song,
           artist,
           score: points,
+          max_combo: maxCombo,
         })
         .then((res) => {
           this.setState({ playerScores: res.data });
@@ -173,11 +219,20 @@ export default class App extends Component {
       axios
         .get(`${SERVER_URL}/auth/logout`)
         .then((res) => {
-          this.setState({ loggedIn: false, profileData: null, activeStep: 0 });
+          this.setState({
+            loggedIn: false,
+            profileData: null,
+            activeStep: 0,
+            accessToken: "",
+          });
         })
         .catch((err) => {
           console.log(err);
         });
+    };
+
+    const TransitionRight = (props) => {
+      return <Slide {...props} direction="right" />;
     };
 
     return (
@@ -221,6 +276,8 @@ export default class App extends Component {
                 resetState={resetState}
                 playAgain={playAgain}
                 recordScore={recordScore}
+                combo={combo}
+                multiplier={multiplier}
               />
             ) : (
               profileData && (
@@ -237,6 +294,15 @@ export default class App extends Component {
             <Login />
           )}
         </div>
+        <Snackbar
+          open={error}
+          TransitionComponent={TransitionRight}
+          anchorOrigin={{ vertical: "top", horizontal: "left" }}
+        >
+          <Alert severity="error" sx={{ width: "100%" }}>
+            There was an error processing your request, please try again.
+          </Alert>
+        </Snackbar>
       </main>
     );
   }

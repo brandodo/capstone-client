@@ -11,6 +11,20 @@
 
   &__playerScore {
     margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 15px;
+  }
+
+  &__playerCombo {
+    padding: 0 0 15px 0;
+    margin: 0;
+    color: #1db954;
+    text-shadow: 3px 3px 8px black;
+  }
+
+  &__playerMultiplier {
+    @extend .sidebar__playerCombo;
+    color: #ff66aa;
   }
 
   &__spotifyContainer {
@@ -45,6 +59,7 @@
     margin-bottom: 0;
     text-shadow: 3px 3px 8px black;
     text-align: center;
+    color: white;
   }
 
   &__currentTrackArtist {

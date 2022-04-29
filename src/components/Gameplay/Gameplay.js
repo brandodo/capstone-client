@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import Circles from "./Circles";
-import { v4 as uuidv4 } from "uuid";
 import "./Gameplay.scss";
 
 export default function Gameplay({ audioData, scorePoints }) {
@@ -8,6 +7,7 @@ export default function Gameplay({ audioData, scorePoints }) {
   const cHeight = useRef(null);
   const containerRef = useRef(null);
   const gameGridRef = useRef(null);
+  const gameGridTemp = useRef(null);
 
   const beats = audioData.beats;
   const tempo = audioData.track.tempo;
@@ -25,6 +25,7 @@ export default function Gameplay({ audioData, scorePoints }) {
   const [gameBeat, setGameBeat] = useState(gameBeats);
   const [currentBeat, setCurrentBeat] = useState([]);
   const [number, setNumber] = useState();
+  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     cWidth.current = containerRef.current.clientWidth;
@@ -41,6 +42,8 @@ export default function Gameplay({ audioData, scorePoints }) {
       ["45%", "70%"],
       ["75%", "70%"],
     ];
+
+    gameGridTemp.current = [...gameGridRef.current];
 
     let start;
     let counter = 0;
@@ -69,35 +72,42 @@ export default function Gameplay({ audioData, scorePoints }) {
 
   useEffect(() => {
     if (gameBeat) {
-      let random = Math.floor(Math.random() * gameGridRef.current.length);
+      let random = Math.floor(Math.random() * gameGridTemp.current.length);
 
       while (random === number) {
-        random = Math.floor(Math.random() * gameGridRef.current.length);
+        random = Math.floor(Math.random() * gameGridTemp.current.length);
       }
 
       setNumber(random);
 
-      const x = gameGridRef.current[random][0];
-      const y = gameGridRef.current[random][1];
+      const x = gameGridTemp.current[random][0];
+      const y = gameGridTemp.current[random][1];
       const xInt = cWidth.current * (parseFloat(x.replace("%", "")) / 100);
       const yInt = cHeight.current * (parseFloat(y.replace("%", "")) / 100);
 
       gameBeat.shift();
       const newBeatList = [...gameBeat];
-
+      setCounter(counter + 1);
       setGameBeat(newBeatList);
       setCurrentBeat([
         ...currentBeat,
         <Circles
+          key={`circle-${counter}`}
           x={x}
           y={y}
           xInt={xInt}
           yInt={yInt}
-          id={uuidv4()}
+          id={`circle-${counter}`}
           scorePoints={scorePoints}
           beatsPerSecond={beatsPerSecond}
         />,
       ]);
+
+      gameGridTemp.current.splice(random, 1);
+
+      if (gameGridTemp.current.length === 1) {
+        gameGridTemp.current = [...gameGridRef.current];
+      }
     }
   }, [change]);
 
