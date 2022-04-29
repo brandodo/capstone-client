@@ -57,7 +57,8 @@ export default function SearchSongs({
         })
         .catch((err) => {
           if (err.response.status === 401) {
-            refreshCall();
+            
+            refreshCall(true);
           }
         });
     }

@@ -71,8 +71,10 @@ export default class App extends Component {
     clearInterval(setRefresh);
   }
 
-  async refreshCall() {
-    await axios
+  refreshCall(bool) {
+    if (bool) this.setState({ error: true });
+
+    axios
       .get(`${SERVER_URL}/auth/refresh`, { withCredentials: true })
       .then((res) => {
         this.setState({
