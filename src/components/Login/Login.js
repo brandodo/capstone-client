@@ -1,8 +1,9 @@
 import React from "react";
 import { useSpring, config, animated } from "react-spring";
 import "./Login.scss";
+import { API_URL } from "../../config/index";
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const SERVER_URL = API_URL;
 
 export default function Login() {
   const buttonSlide = useSpring({
