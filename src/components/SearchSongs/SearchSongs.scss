@@ -31,6 +31,7 @@
     overflow-x: hidden;
     max-height: 100%;
     position: relative;
+    scrollbar-width: none;
 
     &::-webkit-scrollbar {
       display: none;
