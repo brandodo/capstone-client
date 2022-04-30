@@ -1,10 +1,14 @@
 # WD Diploma - Capstone Project
 
-**Project Title:** aimBeats
+**Project Title:** aimBeats  
 **Author:** Brandon Ong  
 **Cohort:** Web Development 2022 (Part-time)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+# Setup Instructions
+
+You will need to create and configure a .env file of your own in order to run this app. Please refer to the sample.env on how that should look. You will also need to clone the server repo, which can be found <a href="https://github.com/brandodo/capstone-server">here</a>
 
 ## Project Overview
 
@@ -19,6 +23,7 @@ A circle clicking rhythm game where users can test their dexterity while enjoyin
 ## 1.3 User Profile
 
 The app will be geared towards:
+
 - Casual music listeners as a secondary activity while listening to their favorite music.
 - FPS gamers as a warm up exercise.
 
@@ -41,6 +46,7 @@ As a user:
   - react-particles-js
 - Spotify API
 - PassportJS
+- MySQL & KnexJS
 
 ## 2. Client-Side Implementation
 
@@ -50,3 +56,11 @@ As a user:
 - Gameplay
 - Game complete screen
 - Screen Details
+
+Please refer to PDF below for full project details:
+
+<object data="./WD Diploma Capstone - aimBeats (Brandon Ong - FINAL).pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="./WD Diploma Capstone - aimBeats (Brandon Ong - FINAL).pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="./WD Diploma Capstone - aimBeats (Brandon Ong - FINAL).pdf">Download PDF</a>.</p>
+    </embed>
+</object>
