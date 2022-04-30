@@ -1,3 +1,5 @@
+*** DISCLAIMER: Heroku app is currently not fully functional and only works on Firefox browsers at this time. If you wish the try the live app, please let me know as I will need to add you as a user in order to properly authenticate**  
+  
 # WD Diploma - Capstone Project
 
 **Project Title:** aimBeats  
