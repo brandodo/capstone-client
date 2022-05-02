@@ -9,6 +9,7 @@ export default function Circles({
   id,
   scorePoints,
   beatsPerSecond,
+  score,
 }) {
   const shrinkCircle = useSpring({
     to: { r: 0, opacity: 1, stroke: "#1db954" },
@@ -19,6 +20,13 @@ export default function Circles({
   const emojiFlick = useSpring({
     to: { x: xInt + 100, y: yInt + 100, opacity: 0.5, rotateZ: 720 },
     from: { x: xInt, y: yInt, opacity: 1, rotateZ: 0 },
+    config: config.molasses,
+    delay: 500,
+  });
+
+  const scoreAnimate = useSpring({
+    to: { x: xInt, y: yInt - 100, opacity: 0.5 },
+    from: { x: xInt, y: yInt, opacity: 1 },
     config: config.molasses,
     delay: 500,
   });
@@ -37,9 +45,15 @@ export default function Circles({
   return (
     <>
       {show && (
-        <animated.div style={emojiFlick} className="emoji">
-          {emoji}
-        </animated.div>
+        <>
+          <animated.p
+            style={scoreAnimate}
+            className="points"
+          >{`+${score.toString()}`}</animated.p>
+          <animated.div style={emojiFlick} className="emoji">
+            {emoji}
+          </animated.div>
+        </>
       )}
       <svg
         id={id}

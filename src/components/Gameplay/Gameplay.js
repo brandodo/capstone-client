@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Circles from "./Circles";
 import "./Gameplay.scss";
 
-export default function Gameplay({ audioData, scorePoints }) {
+export default function Gameplay({ audioData, scorePoints, score }) {
   const cWidth = useRef(null);
   const cHeight = useRef(null);
   const containerRef = useRef(null);
@@ -100,6 +100,7 @@ export default function Gameplay({ audioData, scorePoints }) {
           id={`circle-${counter}`}
           scorePoints={scorePoints}
           beatsPerSecond={beatsPerSecond}
+          score={score}
         />,
       ]);
 

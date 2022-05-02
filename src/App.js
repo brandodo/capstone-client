@@ -52,7 +52,7 @@ export default class App extends Component {
         });
 
         setRefresh = setInterval(() => {
-          this.refreshCall();
+          this.refreshCall(false);
         }, (res.data.expires_in - 120) * 1000);
       })
       .catch((err) => {
@@ -71,7 +71,13 @@ export default class App extends Component {
   }
 
   refreshCall(bool) {
-    if (bool) this.setState({ error: true });
+    if (bool) {
+      this.setState({ error: true });
+
+      setTimeout(() => {
+        this.setState({ error: false });
+      }, 2000);
+    }
 
     axios
       .get(`${SERVER_URL}/auth/refresh`, { withCredentials: true })
@@ -80,10 +86,6 @@ export default class App extends Component {
           accessToken: res.data.access_token,
           loggedIn: true,
         });
-
-        setTimeout(() => {
-          this.setState({ error: false });
-        }, 2000);
       })
       .catch((err) => {
         console.log("Could not refresh token", err);
@@ -240,7 +242,11 @@ export default class App extends Component {
         <div className="gameScreen">
           <ParticlesBackground />
           {gameStart && !songEnd ? (
-            <Gameplay audioData={trackData} scorePoints={scorePoints} />
+            <Gameplay
+              audioData={trackData}
+              scorePoints={scorePoints}
+              score={multiplier * 200}
+            />
           ) : songEnd ? (
             <GameOver playerScores={playerScores} />
           ) : (
