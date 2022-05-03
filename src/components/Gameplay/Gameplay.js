@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import GridCircle from "../GridCircle/GridCircle";
 import Circles from "./Circles";
 import "./Gameplay.scss";
 
@@ -115,6 +116,11 @@ export default function Gameplay({ audioData, scorePoints, score }) {
   return (
     <div ref={containerRef} className="gameplay__circlesContainer">
       {gameGridRef.current ? currentBeat : ""}
+      {gameGridRef.current
+        ? gameGridRef.current.map((coord) => {
+            return <GridCircle coord={coord} />;
+          })
+        : ""}
     </div>
   );
 }

@@ -12,7 +12,8 @@
     border-radius: 25px;
     overflow: scroll;
     overflow-x: hidden;
-
+    scrollbar-width: none;
+    
     &::-webkit-scrollbar {
       display: none;
     }
