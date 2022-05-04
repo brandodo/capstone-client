@@ -3,7 +3,7 @@ import { Step, Stepper, StepLabel } from "@mui/material";
 import { useTransition, animated, config } from "react-spring";
 import "./HorizontalStepper.scss";
 
-export default function HorizontalStepper({ activeStep, show, showStepper }) {
+export default function HorizontalStepper({ activeStep, show, setStepper }) {
   const steps = ["Connect your Spotify Account", "Select a Song", "Play!"];
   const AnimatedStepper = animated(Stepper);
 
@@ -16,7 +16,7 @@ export default function HorizontalStepper({ activeStep, show, showStepper }) {
   });
 
   useEffect(() => {
-    showStepper(true);
+    setStepper(true);
   }, []);
 
   return transition(

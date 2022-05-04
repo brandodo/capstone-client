@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import {
   useSpring,
   useSpringRef,
@@ -8,9 +7,9 @@ import {
   easings,
   useChain,
 } from "react-spring";
-import "./TitleScreen.scss";
+import "./GameTitle.scss";
 
-export default function TitleScreen({ show }) {
+export default function GameTitle({ show }) {
   const springRef = useSpringRef();
   const transitionRef = useSpringRef();
 

@@ -1,17 +1,16 @@
 import React, { Component } from "react";
-import TitleScreen from "./components/TitleScreen/TitleScreen";
-import HorizontalStepper from "./components/HorizontalStepper/HorizontalStepper";
-import Login from "./components/Login/Login";
-import SearchSongs from "./components/SearchSongs/SearchSongs";
-import TrackPlayer from "./components/TrackPlayer/TrackPlayer";
-import Gameplay from "./components/Gameplay/Gameplay";
-import GameOver from "./components/GameOver/GameOver";
-import "./App.scss";
+import { ParticlesBackground } from "./components/index";
+
+import TitleScreen from "./pages/TitleScreen";
+import HomeSidebar from "./pages/HomeSidebar";
+import GameplayTrack from "./pages/GameplayTrack";
+import GameScreen from "./pages/GameScreen";
+import GameEndScreen from "./pages/GameEndScreen";
+
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
-import ParticlesBackground from "./components/ParticlesBackground/ParticlesBackground";
-import UserProfile from "./components/UserProfile/UserProfile";
-import { Snackbar, Slide, Alert } from "@mui/material";
 import { API_URL } from "./config/index";
+import "./App.scss";
 
 const SERVER_URL = API_URL;
 const SPOTIFY_BASE_URL = "https://api.spotify.com/v1";
@@ -94,6 +93,7 @@ export default class App extends Component {
 
   render() {
     const {
+      activeStep,
       loggedIn,
       profileData,
       accessToken,
@@ -193,7 +193,7 @@ export default class App extends Component {
       this.setState({ songEnd: false, score: 0 });
     };
 
-    const showStepper = (bool) => {
+    const setStepper = (bool) => {
       this.setState({ stepperShow: bool });
     };
 
@@ -233,83 +233,103 @@ export default class App extends Component {
         });
     };
 
-    const TransitionRight = (props) => {
-      return <Slide {...props} direction="right" />;
-    };
-
     return (
-      <main>
-        <div className="gameScreen">
-          <ParticlesBackground />
-          {gameStart && !songEnd ? (
-            <Gameplay
-              audioData={trackData}
-              scorePoints={scorePoints}
-              score={multiplier * 200}
-            />
-          ) : songEnd ? (
-            <GameOver playerScores={playerScores} />
-          ) : (
-            <>
-              {profileData && (
-                <UserProfile
-                  profile={profileData}
-                  show={stepperShow}
-                  logout={logout}
-                  showStepper={showStepper}
-                />
-              )}
-
-              <TitleScreen show={stepperShow} />
-            </>
-          )}
-
-          <HorizontalStepper
-            activeStep={this.state.activeStep}
-            show={stepperShow}
-            showStepper={showStepper}
-          />
-        </div>
-        <div className="sidebar">
-          {loggedIn ? (
-            songSelected ? (
-              <TrackPlayer
-                accessToken={accessToken}
-                currentTrack={currentTrack}
-                startGame={startGame}
-                points={score}
-                showGameEnd={showGameEnd}
-                resetState={resetState}
-                playAgain={playAgain}
-                recordScore={recordScore}
-                combo={combo}
-                multiplier={multiplier}
+      <BrowserRouter>
+        <main>
+          <div className="gameScreen">
+            <ParticlesBackground />
+            <Switch>
+              <Route
+                path="/"
+                exact
+                render={(routerProps) => {
+                  return (
+                    <TitleScreen
+                      profileData={profileData}
+                      stepperShow={stepperShow}
+                      logout={logout}
+                      setStepper={setStepper}
+                      activeStep={activeStep}
+                      {...routerProps}
+                    />
+                  );
+                }}
               />
-            ) : (
-              profileData && (
-                <SearchSongs
-                  refreshCall={() => this.refreshCall()}
-                  getTrackData={getTrackData}
-                  apiHeader={apiHeader}
-                  showStepper={showStepper}
-                  show={stepperShow}
-                />
-              )
-            )
-          ) : (
-            <Login />
-          )}
-        </div>
-        <Snackbar
-          open={error}
-          TransitionComponent={TransitionRight}
-          anchorOrigin={{ vertical: "top", horizontal: "left" }}
-        >
-          <Alert severity="error" sx={{ width: "100%" }}>
-            There was an error processing your request, please try again.
-          </Alert>
-        </Snackbar>
-      </main>
+              <Route
+                path="/:id"
+                render={(routerProps) => {
+                  return (
+                    <GameScreen
+                      trackData={trackData}
+                      scorePoints={scorePoints}
+                      multiplier={multiplier}
+                      {...routerProps}
+                    />
+                  );
+                }}
+              />
+              <Route
+                path="/score/:id"
+                render={(routerProps) => {
+                  return (
+                    <GameEndScreen
+                      playerScores={playerScores}
+                      {...routerProps}
+                    />
+                  );
+                }}
+              />
+            </Switch>
+          </div>
+          <div className="sidebar">
+            <Switch>
+              <Route
+                path="/"
+                exact
+                render={(routerProps) => {
+                  return (
+                    <HomeSidebar
+                      profileData={profileData}
+                      refreshCall={this.refreshCall}
+                      getTrackData={getTrackData}
+                      apiHeader={apiHeader}
+                      show={stepperShow}
+                      setStepper={setStepper}
+                      {...routerProps}
+                    />
+                  );
+                }}
+              />
+              <Route
+                path="/:id"
+                render={(routerProps) => {
+                  return (
+                    <GameplayTrack
+                      accessToken={accessToken}
+                      currentTrack={currentTrack}
+                      startGame={startGame}
+                      score={score}
+                      showGameEnd={showGameEnd}
+                      resetState={resetState}
+                      playAgain={playAgain}
+                      recordScore={recordScore}
+                      combo={combo}
+                      multiplier={multiplier}
+                      {...routerProps}
+                    />
+                  );
+                }}
+              />
+              <Route
+                path="/score/:id"
+                render={(routerProps) => {
+                  return <GameplayTrack {...routerProps} />;
+                }}
+              />
+            </Switch>
+          </div>
+        </main>
+      </BrowserRouter>
     );
   }
 }

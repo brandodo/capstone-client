@@ -10,25 +10,46 @@ export default function Gameplay({ audioData, scorePoints, score }) {
   const gameGridRef = useRef(null);
   const gameGridTemp = useRef(null);
 
-  const beats = audioData.beats;
-  const tempo = audioData.track.tempo;
-  const beatsPerSecond = tempo / 60;
+  const beats = useRef(null);
+  const tempo = useRef(null);
+  const beatsPerSecond = useRef(null);
 
-  const confidenceArr = beats.map((beat) => beat.confidence);
-  const avgConfidence =
-    confidenceArr.reduce((prev, curr) => prev + curr, 0) / confidenceArr.length;
+  const confidenceArr = useRef(null);
+  const avgConfidence = useRef(null);
+  const gameBeats = useRef(null);
 
-  const gameBeats = beats.filter((beat) => {
-    return beat.confidence > avgConfidence && beat.start > 3;
-  });
+  // const beats = audioData.beats;
+  // const tempo = audioData.track.tempo;
+  // const beatsPerSecond = tempo / 60;
+
+  // const confidenceArr = beats.map((beat) => beat.confidence);
+  // const avgConfidence =
+  //   confidenceArr.reduce((prev, curr) => prev + curr, 0) / confidenceArr.length;
+
+  // const gameBeats = beats.filter((beat) => {
+  //   return beat.confidence > avgConfidence && beat.start > 3;
+  // });
 
   const [change, setChange] = useState(false);
-  const [gameBeat, setGameBeat] = useState(gameBeats);
+  const [gameBeat, setGameBeat] = useState(gameBeats.current);
   const [currentBeat, setCurrentBeat] = useState([]);
   const [number, setNumber] = useState();
   const [counter, setCounter] = useState(0);
 
   useEffect(() => {
+    if (audioData.track) {
+      beats.current = audioData.beats;
+      tempo.current = audioData.track.tempo;
+      beatsPerSecond.current = tempo / 60;
+
+      confidenceArr.current = beats.current.map((beat) => beat.confidence);
+      avgConfidence.current =
+        confidenceArr.current.reduce((prev, curr) => prev + curr, 0) /
+        confidenceArr.length;
+      gameBeats.current = beats.filter((beat) => {
+        return beat.confidence > avgConfidence && beat.start > 3;
+      });
+    }
     cWidth.current = containerRef.current.clientWidth;
     cHeight.current = containerRef.current.clientHeight;
 

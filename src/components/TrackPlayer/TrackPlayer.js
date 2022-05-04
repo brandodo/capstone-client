@@ -23,7 +23,7 @@ export default function TrackPlayer({
   const [options, setOptions] = useState(false);
   const [show, setShow] = useState(false);
   const [record, setRecord] = useState(false);
-  const { images } = currentTrack.album;
+
   const { uri, name, artists } = currentTrack;
 
   const optionsTransition = useTransition(options, {
@@ -61,8 +61,9 @@ export default function TrackPlayer({
     }
   }, [record]);
 
-  if (!accessToken) return null;
+  if (!accessToken || !currentTrack) return null;
 
+  const { images } = currentTrack.album;
   return trackTransition(
     (styles, show) =>
       show && (

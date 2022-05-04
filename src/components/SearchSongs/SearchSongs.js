@@ -11,7 +11,7 @@ export default function SearchSongs({
   apiHeader,
   refreshCall,
   getTrackData,
-  showStepper,
+  setStepper,
   show,
 }) {
   const [tracks, setTracks] = useState([]);
@@ -67,6 +67,7 @@ export default function SearchSongs({
     setItems([]);
   }, [toggle]);
 
+  console.log(show);
   return (
     <div className="sidebar__searchContainer">
       {searchTransition(
@@ -102,7 +103,7 @@ export default function SearchSongs({
                       track={track}
                       key={track.uri}
                       getTrackData={getTrackData}
-                      showStepper={showStepper}
+                      setStepper={setStepper}
                     />
                   </animated.div>
                 );
