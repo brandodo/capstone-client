@@ -44,7 +44,6 @@ export default class App extends Component {
     axios
       .get(`${SERVER_URL}/auth/profile`, { withCredentials: true })
       .then((res) => {
-        console.log(res.data);
         this.setState({
           loggedIn: true,
           profileData: res.data,
@@ -62,7 +61,7 @@ export default class App extends Component {
             loggedIn: false,
           });
         } else {
-          console.log("Error authenticating", err);
+          return `Error authenticating, ${err}`;
         }
       });
   }
@@ -89,7 +88,7 @@ export default class App extends Component {
         });
       })
       .catch((err) => {
-        console.log("Could not refresh token", err);
+        return `Could not refresh token, ${err}`;
       });
   }
 
@@ -214,7 +213,7 @@ export default class App extends Component {
           this.setState({ playerScores: res.data });
         })
         .catch((err) => {
-          console.log(err);
+          return `Failed to post score, ${err}`;
         });
     };
 
@@ -230,7 +229,7 @@ export default class App extends Component {
           });
         })
         .catch((err) => {
-          console.log(err);
+          return `Failed to logout, ${err}`;
         });
     };
 

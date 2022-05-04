@@ -88,6 +88,7 @@ export default function Gameplay({ audioData, scorePoints, score }) {
 
       gameBeat.shift();
       const newBeatList = [...gameBeat];
+
       setCounter(counter + 1);
       setGameBeat(newBeatList);
       setCurrentBeat([

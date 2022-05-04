@@ -6,7 +6,13 @@ export default function GridCircle({ coord }) {
     <svg
       height="200"
       width="200"
-      style={{ position: "absolute", left: x, top: y, zIndex: -1 }}
+      style={{
+        position: "absolute",
+        left: x,
+        top: y,
+        zIndex: -1,
+        display: "none",
+      }}
     >
       <circle
         cx="100"
