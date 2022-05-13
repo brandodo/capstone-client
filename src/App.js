@@ -1,16 +1,19 @@
 import React, { Component } from "react";
-import TitleScreen from "./components/TitleScreen/TitleScreen";
-import HorizontalStepper from "./components/HorizontalStepper/HorizontalStepper";
-import Login from "./components/Login/Login";
-import SearchSongs from "./components/SearchSongs/SearchSongs";
-import TrackPlayer from "./components/TrackPlayer/TrackPlayer";
-import Gameplay from "./components/Gameplay/Gameplay";
-import GameOver from "./components/GameOver/GameOver";
+import {
+  TitleScreen,
+  HorizontalStepper,
+  Login,
+  SearchSongs,
+  TrackPlayer,
+  Gameplay,
+  GameOver,
+  ParticlesBackground,
+  UserProfile,
+  AlertModal,
+} from "./components/index";
+
 import "./App.scss";
 import axios from "axios";
-import ParticlesBackground from "./components/ParticlesBackground/ParticlesBackground";
-import UserProfile from "./components/UserProfile/UserProfile";
-import { Snackbar, Slide, Alert } from "@mui/material";
 import { API_URL } from "./config/index";
 
 const SERVER_URL = API_URL;
@@ -233,12 +236,9 @@ export default class App extends Component {
         });
     };
 
-    const TransitionRight = (props) => {
-      return <Slide {...props} direction="right" />;
-    };
-
     return (
       <main>
+        <AlertModal show={error} />
         <div className="gameScreen">
           <ParticlesBackground />
           {gameStart && !songEnd ? (
@@ -300,15 +300,6 @@ export default class App extends Component {
             <Login />
           )}
         </div>
-        <Snackbar
-          open={error}
-          TransitionComponent={TransitionRight}
-          anchorOrigin={{ vertical: "top", horizontal: "left" }}
-        >
-          <Alert severity="error" sx={{ width: "100%" }}>
-            There was an error processing your request, please try again.
-          </Alert>
-        </Snackbar>
       </main>
     );
   }

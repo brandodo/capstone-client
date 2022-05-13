@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Snackbar, Slide, Alert } from "@mui/material";
 import { useTransition, animated, config } from "react-spring";
+import AlertModal from "../AlertModal/AlertModal";
 import "./UserProfile.scss";
 
 export default function UserProfile({ profile, show, logout, showStepper }) {
@@ -14,10 +14,6 @@ export default function UserProfile({ profile, show, logout, showStepper }) {
     config: config.slow,
     delay: 2000,
   });
-
-  const TransitionRight = (props) => {
-    return <Slide {...props} direction="right" />;
-  };
 
   return profileTransition(
     (styles, show) =>
@@ -41,16 +37,7 @@ export default function UserProfile({ profile, show, logout, showStepper }) {
             <h4 className="userProfile__displayName">Playing as:</h4>
             <h3 className="userProfile__username">{username}</h3>
           </div>
-
-          <Snackbar
-            open={showLogout}
-            TransitionComponent={TransitionRight}
-            anchorOrigin={{ vertical: "top", horizontal: "left" }}
-          >
-            <Alert severity="success" sx={{ width: "100%" }}>
-              Successfully logged out!
-            </Alert>
-          </Snackbar>
+          <AlertModal show={showLogout} />
         </animated.div>
       )
   );

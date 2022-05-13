@@ -1,0 +1,10 @@
+export { default as TitleScreen } from "./TitleScreen/TitleScreen";
+export { default as HorizontalStepper } from "./HorizontalStepper/HorizontalStepper";
+export { default as Login } from "./Login/Login";
+export { default as SearchSongs } from "./SearchSongs/SearchSongs";
+export { default as TrackPlayer } from "./TrackPlayer/TrackPlayer";
+export { default as Gameplay } from "./Gameplay/Gameplay";
+export { default as GameOver } from "./GameOver/GameOver";
+export { default as ParticlesBackground } from "./ParticlesBackground/ParticlesBackground";
+export { default as UserProfile } from "./UserProfile/UserProfile";
+export { default as AlertModal } from "./AlertModal/AlertModal";
