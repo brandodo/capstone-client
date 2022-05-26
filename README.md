@@ -50,4 +50,4 @@ As a user:
 - PassportJS
 - MySQL & KnexJS
 
-Full project details can be found in the presentation [here](https://www.figma.com/proto/gSGWfaEa8PoZYYGIdhkEnS/Capstone-Presentation?node-id=29%3A260&scaling=contain&page-id=0%3A1&starting-point-node-id=29%3A260).
+Full project details can be found in the presentation [here](https://www.loom.com/share/d7e289c4e6d94f1982ada8ea62019dc7).
