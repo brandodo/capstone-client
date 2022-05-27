@@ -22,6 +22,21 @@ git clone https://github.com/brandodo/capstone-client.git
 git clone https://github.com/brandodo/capstone-server.git  
 ```   
 
+## Install Dependencies:    
+```
+npm i
+```
+
+## Run Client:  
+```
+npm start
+```
+
+## Run Server using nodemon:  
+```
+npm run devStart
+```
+
 ## Project Overview
 
 ## 1.1 Description
