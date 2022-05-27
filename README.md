@@ -16,7 +16,9 @@ You will need to clone this repo along with the server repo, which can be found 
 ### git clone https://github.com/brandodo/capstone-client.git  
 
 ## Server:  
-### git clone https://github.com/brandodo/capstone-server.git  
+```
+git clone https://github.com/brandodo/capstone-server.git  
+```   
 
 ## Project Overview
 
