@@ -10,7 +10,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Setup Instructions
 
-You will need to create and configure a .env file of your own in order to run this app. Please refer to the sample.env on how that should look. You will also need to clone the server repo, which can be found <a href="https://github.com/brandodo/capstone-server">here</a>
+You will need to clone this repo along with the server repo, which can be found [here](https://github.com/brandodo/capstone-server). Both repos will require a .env, which you will need to create. Please refer to the sample.env files in both repos to see how to configure those.
+
+## Client:  
+### git clone https://github.com/brandodo/capstone-client.git  
+
+## Server:  
+### git clone https://github.com/brandodo/capstone-server.git  
 
 ## Project Overview
 
